@@ -1,5 +1,7 @@
 # Java Web SDK for SurveyMonkey v3 APIs
 
+[![Java CI with Maven](https://github.com/masashik/surveymonkey-java-sdk/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/masashik/surveymonkey-java-sdk/actions/workflows/maven.yml)
+
 ### This is a repository of Java code as an answer to the following SurveyMonkey technical screening interview question.
 
 1. We have a RESTful HTTP API that we provide to our customers. We want to make it easier for them to use in their projects by abstracting common boilerplate away in an SDK. Your task is to implement this SDK in a language of your choice. [The API is documented here](https://developer.surveymonkey.com/api/v3/) We'll constrain the exercise to exposing just a single piece of functionality to your end-users. Your SDK should provide a method that returns all of the surveys belonging to the client. It should allow filtering by ID.

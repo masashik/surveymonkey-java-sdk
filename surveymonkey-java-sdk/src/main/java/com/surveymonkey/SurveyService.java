@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.HashMap;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,32 +24,33 @@ public final class SurveyService {
    * This is a service class that holds survey controlling/managing methods.
    */
 
-    private ArrayList<Survey> responseBody = null;
-    //Cache placeholder to optimize/reduce number of HTTP RESTful API call
-    private HashMap surveys_hashmap = new HashMap();
+  private ArrayList<Survey> responseBody = null;
+  //Cache placeholder to optimize/reduce number of HTTP RESTful API call
+  private HashMap surveys_hashmap = new HashMap();
 
-    // Private fields
-    // {
-    private final String accessKey;//accessKey cannot be updated once this class is instantiated.
-    // }
+  // Private fields
+  // {
+  private final String accessKey;//accessKey cannot be updated once this class is instantiated.
+  // }
 
-    // Constructor
-    public SurveyService(String _accessKey) {
-      this.accessKey = _accessKey;
-    }
+  // Constructor
+  public SurveyService(String _accessKey) {
+		if (_accessKey != null && _accessKey.length() > 0) {
+    	this.accessKey = _accessKey;
+		} else {
+			throw new IllegalArgumentException("Exception: Empty access key is provided.");
+			// This line does not compile by Java compiler error. I left this line as a bad practice example.
+			//throw new Exception("Exception: Empty access key is provided.");
+		}
+  }
 
-    // getter and setter of private fields
-    // {
-    
-    // Access Key
+  // Methods
+  // {
+
+    // Get Access Key
     private String getAccessKey() {
       return accessKey;
     }
-
-    // }
-
-    // Methods
-    // {
 
     // Get a survey with provided ID
     public Survey getSurveyByID(String surveyID) {
@@ -99,7 +101,7 @@ public final class SurveyService {
         return responseSurvey;
     }
 
-    // Create new survey
+    // Create new survey 
     public Survey createSurvey(HashMap surveyBody) {
 
       HashMap<String, String> values = new HashMap<String, String>();
@@ -204,13 +206,33 @@ public final class SurveyService {
         }
         return responseBody;
     }
-    // }
 
+		// A method to store lambda expression
+    private static Predicate<Survey> containsTitle(String input) {
+      return survey -> survey.getTitle().contains(input);
+    }
+    
+    // Get the result by filtering the list
     public List<Survey> getSurveyWithFilter(String input) {
+
       ArrayList<Survey> surveys = this.getListOfSurvey();
+
       //Filter surveys by user input - Pickup surveys containing the input text.
-      List<Survey> result = surveys.stream().filter(survey -> survey.getTitle().contains(input)).collect(Collectors.toList());
-//      List<Survey> result = surveys.stream().filter(survey -> !survey.getTitle().contains(input)).collect(Collectors.toList());
+      //final Predicate<Survey> containsTitle = survey -> survey.getTitle().contains(input);
+      List<Survey> result = surveys.stream().filter(containsTitle(input)).collect(Collectors.toList());
+
+      /**
+       * final Predicate<String> startsWithN = name -> name.startsWith("N");
+       *
+       * final Predicate<String> containsTitle = survey -> survey.getTitle().contains(input)
+       * List<Survey> result = surveys.stream().filter(containsTitle).collect(Collectors.toList());
+       */
+
+
+      //List<Survey> result = surveys.stream().filter(survey -> !survey.getTitle().contains(input)).collect(Collectors.toList());
+
       return result;
     }
+
+// }
 }
