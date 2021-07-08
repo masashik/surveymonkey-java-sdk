@@ -2,10 +2,9 @@
 
 [![Java CI with Maven](https://github.com/masashik/surveymonkey-java-sdk/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/masashik/surveymonkey-java-sdk/actions/workflows/maven.yml)
 
-This is a Java client library to work with [SurveyMonkey REST API](https://developer.surveymonkey.com/api/v3/).
+- ### This is a Java client library to work with [SurveyMonkey REST API](https://developer.surveymonkey.com/api/v3/).
 
-### This is a repository of Java code as an answer to the following SurveyMonkey technical screening interview question.
-
+#### This is a repository of Java code as an answer to the following SurveyMonkey technical screening interview question.
 1. We have a RESTful HTTP API that we provide to our customers. We want to make it easier for them to use in their projects by abstracting common boilerplate away in an SDK. Your task is to implement this SDK in a language of your choice. [The API is documented here](https://developer.surveymonkey.com/api/v3/) We'll constrain the exercise to exposing just a single piece of functionality to your end-users. Your SDK should provide a method that returns all of the surveys belonging to the client. It should allow filtering by ID.
 2. Develop a Java Web SDK to consume ~~Banana Stand APIs. The Banana Stand APIs is located at https://app.swaggerhub.com/apis-docs/sseg/banana-stand/1.0.0#/~~
 (The Banana Stand APIs are not accessible by invalid certificate error)
@@ -19,16 +18,37 @@ This is a Java client library to work with [SurveyMonkey REST API](https://devel
 	- Consider how to protect or optimize the endpoint if too many HTTP API are requested
 	- Consider thread-safety for multithreading execution environment.
 
-### High-level solution design
+## High-level solution design
 ![High-level design](Java_Web_SDK_for_SurveyMonkey_v3_APIs.png)
 
-### Project repository structure
-- surveymonkey-java-sdk                     - Java library (JAR file) with source code to abstract SurveyMonkey v3 APIs
-- Java_Web_SDK_for_SurveyMonkey_v3_APIs.png - Solution design diagram attached to README.md
-- LICENSE
-- README.md
+## Project repository structure
+```
+ ~/Project/surveymonkey-java-sdk/ [main] tree
+.
+├── Java_Web_SDK_for_SurveyMonkey_v3_APIs.png (Solution design diagram attached to README.md)
+├── LICENSE
+├── README.md
+└── surveymonkey-java-sdk
+    ├── pom.xml
+    └── src
+        ├── main
+        │   └── java
+        │       └── com
+        │           └── surveymonkey (Java library (JAR file) with source code to abstract SurveyMonkey v3 APIs)
+        │               ├── Survey.java
+        │               ├── SurveySDKClientApp.java
+        │               └── SurveyService.java
+        └── test
+            └── java
+                └── com
+                    └── surveymonkey
+                        └── SurveyServiceUnitTests.java
 
-### In testing, the following concerns must be addressed.
+10 directories, 8 files
+```
+
+## Testing
+#### In testing, the following concerns must be addressed.
 
 1. **Scalability & Reliability**: High-volume traffic to handle thousands of requests a second in a reliable and performant way of the method
 2. **Thread-safety**: Concurrent access to the method in a multithreading environment
@@ -36,7 +56,7 @@ This is a Java client library to work with [SurveyMonkey REST API](https://devel
 4. **Robust**: Good coverage of unit, integration, and end-to-end testing
 5. **Authentication and authorization**: Accept only authenticated and correctly authorized API requests
 
-### How to consume the Java SDK in Java Client Application
+## Usage
 
 1. Add the following maven repository information and dependency to your pom.xml
 
@@ -84,8 +104,7 @@ public class SurveySDKClientApp {
   }
 }
 ```
-
-### References
+## References
 
 - [API v.s. SDK](https://rapidapi.com/blog/api-vs-sdk/)
 - [API v.s. Library](https://rapidapi.com/blog/api-vs-library/)
